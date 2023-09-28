@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../.platformio/packages/framework-mik32v0-sdk/hal"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"mcu32_memory_map.h": "c",
+			"mik32_hal_spi.h": "c",
+			"stddef.h": "c",
+			"mik32_hal_pad_config.h": "c",
+			"uart.h": "c",
+			"uart_lib.h": "c",
+			"mik32_hal_def.h": "c",
+			"mik32_hal_uart.h": "c",
+			"spi.h": "c",
+			"mik32_hal_gpio.h": "c"
+		}
+	}
+}
