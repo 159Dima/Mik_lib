@@ -3,7 +3,6 @@
 #include "mik32_hal_gpio.h"
 #include "mik32_hal_uart.h"
 #include "mik32_hal_pad_config.h"
-#include "mik32_hal_spi.h"
 #include "uart_lib.h"
 
 mic32_hal_uart uart;

@@ -24,16 +24,14 @@ HAL_StatusTypeDef HAL_UART_Init(mic32_hal_uart *huart)
         return HAL_ERROR;
     }
 
-    //HAL_UART_ClearError(huart);
-
-    /* Выключение модуля SPI */
+    /* Выключение модуля UART */
     HAL_UART_Disable(huart);
 
     huart->Instance->CONTROL1 = huart->Init_CR1;
     huart->Instance->CONTROL2 = huart->Init_CR2;
     huart->Instance->CONTROL3 = huart->Init_CR3;
     
-    #ifdef MIK32_SPI_DEBUG
+    #ifdef MIK32_UART_DEBUG
     xprintf("uart_Init\n");
     #endif
     
@@ -66,7 +64,7 @@ HAL_StatusTypeDef HAL_UART_Init(mic32_hal_uart *huart)
 
 HAL_StatusTypeDef HAL_UART_WRITE(mic32_hal_uart *huart, char byte)
 {
-    while (huart->Instance->FLAGS & )
+    while (huart->Instance->FLAGS)
     {
         /* code */
     }

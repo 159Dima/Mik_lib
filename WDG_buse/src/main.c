@@ -3,18 +3,27 @@
 #include "mik32_hal_pad_config.h"
 #include "mik32_hal_rcc.h"
 
+#include "mik32_hal_wdg_bus.h"
+
 
 #include "uart_lib.h"
 #include "xprintf.h"
 
+WDG_Buse_InitTypeDef WDG_Bus;
+
+void SystemClock_Config(void);
+
+void WDG_init(){
+WDG_Bus.takt = 7;
+WDG_Bus.interups = INT_ALL;
+WDG_Bus.bus = EEPROM_BUS|DMA_BUS|SPIFI_BUS;
+HAL_WDG_Bus_Init(&WDG_Bus);
+}
 
 int main()
 {
     SystemClock_Config();
-
-    
-
-
+    WDG_init();
 
     while(1)
     {

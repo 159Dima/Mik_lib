@@ -71,6 +71,7 @@ int main()
 void SystemClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
   PeriphClkInit.PMClockAHB = PMCLOCKAHB_DEFAULT; 
   PeriphClkInit.PMClockAPB_M = PMCLOCKAPB_M_DEFAULT | PM_CLOCK_WU_M | PM_CLOCK_PAD_CONFIG_M;     
   PeriphClkInit.PMClockAPB_P = PM_CLOCK_GPIO_1_M | PMCLOCKAPB_P_DEFAULT | PM_CLOCK_UART_0_M | PM_CLOCK_ANALOG_REG_M | PM_CLOCK_WDT_M;     
