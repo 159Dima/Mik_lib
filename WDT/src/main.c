@@ -6,65 +6,60 @@
 #include "mik32_hal_timer16.h"
 #include "mik32_hal_scr1_timer.h"
 
-#include "mik32_hal_wdg.h"
+#include "mik32_hal_wdt.h"
 
 #include "uart_lib.h"
 #include "xprintf.h"
 
-#define PIN_LED2 PORT1_3 
 Timer16_HandleTypeDef htimer16_1;
-
 SCR1_TIMER_HandleTypeDef hscr1_timer;
-
-WDG_InitTypeDef wdg;
+WDT_InitTypeDef wdt;
 
 static void Scr1_Timer_Init(void);
 
 void SystemClock_Config(void);
 
-void delay(uint32_t DelayTime)
-{
-  for (volatile int i = 0; i < DelayTime; i++);
+
+void WDT_Init(){
+  wdt.Clock = OSC32K;
+  wdt.Prescaler = PRESCALE_16;
+  wdt.Reload = 1000;
+  HAL_WDT_Init(&wdt);
 }
-
-void WDT_option()
-{
-  wdg.Clock = OSC32K;
-  wdg.Prescaler = PRESCALE_16;
-  wdg.Reload = 1000;
-
-  HAL_WDG_Init(&wdg);
+void WDT_NEW_Time(){
+  wdt.Reload = 500;
+  HAL_WDT_Init(&wdt); 
+  HAL_WDT_Start();
 }
 
 int main()
 {    
 
-    SystemClock_Config();
+  SystemClock_Config();
+  Scr1_Timer_Init();
+  WDT_Init();
 
-    UART_Init(UART_0, 3333, UART_CONTROL1_TE_M | UART_CONTROL1_M_8BIT_M, 0, 0);
-    
-    HAL_PadConfig_PinMode(PIN_LED2, PIN_MODE1);
-    HAL_GPIO_PinDirection(PIN_LED2, GPIO_PIN_OUTPUT);
+  UART_Init(UART_0, 3333, UART_CONTROL1_TE_M | UART_CONTROL1_M_8BIT_M, 0, 0);
+  
+  xprintf("\nstart 1\n"); 
+  HAL_WDT_Start(); 
+  HAL_DelayMs(&hscr1_timer, 1000);
+  HAL_WDT_Refresh();
+  xprintf("stop 1");
 
-    //Wdt_init(OSC32K, PRESCALE_16, 1000);
-    //xprintf("%d\n", Millis_in_clock(OSC32K, PRESCALE_16, 1000));
 
-    
-    Scr1_Timer_Init();
-    HAL_GPIO_PinWrite(PIN_LED2, GPIO_PIN_HIGH);
-    xprintf("start\n");
-    WDT_option();    
-    HAL_DelayMs(&hscr1_timer, 1000);
-    HAL_IWDG_Refresh();
-    xprintf("%d\n", WDT_time());
+  xprintf("\nstart 2\n"); 
+  WDT_NEW_Time();
+  HAL_DelayMs(&hscr1_timer, 500);
+  HAL_WDT_Refresh();
+  xprintf("stop 2\n");
 
-    
-    
-    while (1)
-    {   
-    HAL_DelayMs(&hscr1_timer, 900);
-    HAL_IWDG_Refresh();
-    }
+  HAL_WDT_Stop();
+
+  while (1)
+  {   
+  HAL_DelayMs(&hscr1_timer, 1050);
+  }
        
 }
 
